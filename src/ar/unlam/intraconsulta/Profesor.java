@@ -1,9 +1,12 @@
 package ar.unlam.intraconsulta;
 
+import java.util.ArrayList;
+
 public class Profesor {
 	private Integer dni;
 	private String apellido;
 	private String nombre;
+	private ArrayList<Profesor>ListaProfesores;
 
 	public Profesor(Integer dni, String apellido, String nombre) {
 	this.dni=dni;

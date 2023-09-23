@@ -10,15 +10,19 @@ public class CicloLectivo {
 	private LocalDate fechaFinalizacionCiclolectivo;
 	private LocalDate fechaInicioInscripcion;
 	private LocalDate fechafinalizacion;
-	private ArrayList<Integer> idList;
 	private ArrayList<LocalDate> fechaList;
-	
-	public CicloLectivo(Integer cicloLectivoId, String nombre, LocalDate fechaInicioCiclolectivo, LocalDate fechaFinalizacionCiclolectivo ) {
-		
+
+	public CicloLectivo(Integer cicloLectivoId, String nombre, LocalDate fechaInicioCiclolectivo,
+			LocalDate fechaFinalizacionCiclolectivo) {
+
 		this.cicloLectivoId = cicloLectivoId;
-		idList = new ArrayList<>();
+		this.fechaInicioCicloLectivo = fechaInicioCiclolectivo;
+		this.fechaFinalizacionCiclolectivo = fechaFinalizacionCiclolectivo;
 		fechaList = new ArrayList<>();
+		this.fechaInicioInscripcion = fechaInicioCiclolectivo;
+		this.fechafinalizacion = fechaFinalizacionCiclolectivo;
 	}
+
 	public Integer getCicloLectivoId() {
 		return cicloLectivoId;
 	}
@@ -67,32 +71,23 @@ public class CicloLectivo {
 		this.fechafinalizacion = fechafinalizacion;
 	}
 
-	public ArrayList<Integer> getIdList() {
-		return idList;
-	}
-
-	public void setIdList(ArrayList<Integer> idList) {
-		this.idList = idList;
-	}
-	public boolean CicloLectivoIdRegistrado(Integer cicloLectivoId) {
-		if(idList.contains(cicloLectivoId)) {
-			return false;
-	}else {
-		idList.add(cicloLectivoId);
-		
-	}
-		return true;
-	}
-	public boolean superponerFecha(LocalDate fechaInicioCicloLectivo,LocalDate fechaFinalizacionCiclolectivo) {
+	public boolean superponerFecha(LocalDate fechaInicioCicloLectivo, LocalDate fechaFinalizacionCiclolectivo) {
 		// TODO Auto-generated method stub
-		if ((fechaList.contains(fechaInicioCicloLectivo))&!(fechaList.contains(fechaFinalizacionCiclolectivo)) ){
+		if ((fechaList.contains(fechaInicioCicloLectivo)) & !(fechaList.contains(fechaFinalizacionCiclolectivo))) {
 			return false;
-		}else {
+		} else {
 			fechaList.add(fechaInicioCicloLectivo);
 			fechaList.add(fechaFinalizacionCiclolectivo);
 		}
 		return true;
 	}
-	
+
+	public boolean fechaInscripcion(LocalDate fechaInicioInscripcion, LocalDate fechafinalizacion) {
+		if (fechaInicioInscripcion.isAfter(getFechaInicioCicloLectivo())
+				&& fechafinalizacion.isBefore(getFechafinalizacion())) {
+			return true;
+		}
+		return false;
+	}
 
 }

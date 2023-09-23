@@ -1,11 +1,12 @@
 package ar.unlam.intraconsulta;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class Comision {
 //comision es lo mismo que cursada 
-
+	private ArrayList<Alumno>alumnos;
 	private Integer comisionId;
 	private ArrayList<Materia> materias;
 	private ArrayList<Turno> turno;
@@ -13,8 +14,9 @@ public class Comision {
 	private ArrayList<Profesor> profesores;
 	// private ArrayList <InscripcionAComision> inscripcionAComision;
 	private ArrayList<Comision> comision;
+	private DayOfWeek dia;
 
-	public Comision() {
+	public Comision(Integer comisionId) {
 
 		this.comisionId = comisionId;
 		turno = new ArrayList<>();
@@ -22,8 +24,19 @@ public class Comision {
 		cicloLectivos = new ArrayList();
 		profesores = new ArrayList();
 		comision= new ArrayList();
+		this.dia =dia;
 	}
 	
+
+	public DayOfWeek getDia() {
+		return dia;
+	}
+
+
+	public void setDia(DayOfWeek dia) {
+		this.dia = dia;
+	}
+
 
 	public ArrayList<Profesor> getProfesores() {
 		return profesores;
@@ -87,5 +100,12 @@ public class Comision {
 
 		return mismaMateria && mismoCicloLectivo && mismoTurno;
 	}
-
+public boolean mismoDiaTurno(Comision otraComision) {
+	//for (Alumno alumno : alumnos) {
+	boolean mismoDia = this.dia.equals(otraComision.getDia());
+	boolean mismoTurno = this.turno.equals(otraComision.getTurno());
+		
+	
+return mismoDia && mismoDia;
+}
 }

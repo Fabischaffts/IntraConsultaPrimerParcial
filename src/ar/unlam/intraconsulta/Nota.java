@@ -4,9 +4,7 @@ public class Nota {
  
 	private Integer valor;
 	
-	public Nota() {
-		
-	};
+	
 	
 	public Nota(Integer valor) {
 		this.valor = valor;

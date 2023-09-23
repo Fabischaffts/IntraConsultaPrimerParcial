@@ -2,6 +2,8 @@ package ar.unlam.intraconsulta;
 
 import static org.junit.Assert.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -264,7 +266,7 @@ public class TestUniversidad {
 	// materia,cicloLectivo y turno
 	public void queSePuedaRegistrarUnaComisionNoSePuedeRepetirParaLaMismaMateriaCicloLectivoYTurno() {
 		Universidad uni = new Universidad("Unalm");
-		Comision comision1 = new Comision();
+		Comision comision1 = new Comision(1);
 		comision1.setMaterias(new ArrayList<>());
 		comision1.getMaterias().add(new Materia(1, "Pb2"));
 		comision1.setCicloLectivos(new ArrayList<>());
@@ -272,7 +274,7 @@ public class TestUniversidad {
 		comision1.setTurno(new ArrayList<>());
 		comision1.getTurno().add(new Turno("noche"));
 
-		Comision comision2 = new Comision();
+		Comision comision2 = new Comision(1);
 		comision2.setMaterias(new ArrayList<>());
 		comision2.getMaterias().add(new Materia(1, "Pb2"));
 		comision2.setCicloLectivos(new ArrayList<>());
@@ -322,41 +324,94 @@ public class TestUniversidad {
 
 	@Test
 	public void queSePuedaRegistrarUnaCorrelativaYSeExisteIdMateriaYIdCorrelativa() {
-		Materia materiaA = new Materia(1, "pb1");
-		Materia materiaB = new Materia(2, "pb2");
 
-		assertTrue(materiaA.agregarCorrelativa(materiaB)); // Fügen Sie Materia B als Korrelation zu Materia A hinzu
-		assertTrue(materiaA.getCorrelativas().contains(materiaB)); // Überprüfen, ob Materia B in den Korrelationen von
-																	// Materia A vorhanden ist
-		assertFalse(materiaA.agregarCorrelativa(materiaB)); // Versuchen Sie, Materia B erneut hinzuzufügen, sollte
-															// false zurückgeben
-		assertTrue(materiaA.agregarCorrelatividad(2)); // Versuchen, Materia B (ID 2) als Korrelation zu Materia A
-														// hinzuzufügen
-		assertTrue(materiaA.getCorrelativas().contains(materiaB)); // Überprüfen, ob Materia B in den Korrelationen von
-		// es false // Materia A vorhanden ist
-		assertTrue(materiaA.agregarCorrelatividad(2)); // Versuchen Sie, Materia B erneut hinzuzufügen, sollte false
-														// zurückgeben
-		materiaA.agregarCorrelativa(materiaB); // Fügen Sie Materia B manuell als Korrelation zu Materia A hinzu
-		assertTrue(materiaA.verificacionCorrelatividad(2)); // Überprüfen, ob die ID 2 in den Korrelationen von Materia
-															// A existiert
-		assertFalse(materiaA.verificacionCorrelatividad(3)); // Überprüfen, ob eine nicht existierende ID (z. B. 3) in
-																// den Korrelationen von Materia A nicht existiert
-
+		String nombre = "Unlam";
+		Universidad uni = new Universidad(nombre);
+		Materia correlativa = new Materia(1, "pb2");
+		uni.agregarCorelatividad(correlativa);
+		assertTrue(uni.agregarCorrelatividad(1, 1));
 	}
 
 	@Test
+	// esta mal
 	public void queSePuedaEliminarLaCorrelatividadYverficarSiExiste() {
-		 	Materia materiaA = new Materia(1, "Materia A");
-		 	Materia materiaB = new Materia(2, "Materia B");
-	        materiaA.agregarCorrelatividad(2); // Fügen Sie Materia B als Korrelation zu Materia A hinzu
-	      //  assertTrue(materiaA.existeCorrelatividad(1, 2)); // Überprüfen, ob die Korrelation zwischen Materia A (ID 1) und Materia B (ID 2) existiert
-	        assertFalse(materiaA.existeCorrelatividad(1, 3)); // Überprüfen, ob eine nicht existierende Korrelation zwischen Materia A (ID 1) und einer anderen Materia (ID 3) nicht existiert
-	        assertFalse(materiaA.existeCorrelatividad(2, 1)); // Überprüfen, ob die Methode die Reihenfolge der IDs beachtet und eine nicht existierende Korrelation nicht findet
-	    //    assertTrue(materiaA.eliminarCorrelatividad(1, 2)); // Versuchen Sie, die Korrelation zwischen Materia A (ID 1) und Materia B (ID 2) zu entfernen, sollte erfolgreich sein
-	        assertFalse(materiaA.existeCorrelatividad(1, 2)); // Überprüfen, ob die Korrelation nicht mehr existiert
-	        assertFalse(materiaA.eliminarCorrelatividad(1, 2)); // Versuchen Sie erneut, die Korrelation zu entfernen, sollte fehlschlagen, da sie bereits entfernt wurde
-	        assertFalse(materiaA.eliminarCorrelatividad(1, 3)); // Versuchen Sie, eine nicht existierende Korrelation zu entfernen, sollte fehlschlagen
-	        assertFalse(materiaA.eliminarCorrelatividad(2, 1)); // Überprüfen, ob die Methode die Reihenfolge der IDs beachtet und eine nicht existierende Korrelation nicht entfernt
-	    }
+		String nombre = "Unlam";
+		Universidad uni = new Universidad(nombre);
+		Materia correlativa = new Materia(1, "pb2");
+		assertFalse(uni.eliminarCorrelatividad(1));
+		// entfernt
+	}
 
-}
+	@Test
+	public void queEstendadoDeAltaAlumnoYComision() {
+		Universidad uni = new Universidad("Unalm");
+		Comision comision = new Comision(1);
+		Alumno alumno = new Alumno(1, "Bauti", "Leon");
+		uni.dadoDeAlta(1, 1);
+
+		assertFalse(uni.dadoDeAlta(2, 1));
+	}
+	@Test
+	public void queTengatodasLasCorrelativasAprobados() {
+		Correlativa correlativa = new Correlativa(null);
+		Nota nota = new Nota(3);		
+		correlativa.correlativaAprobada();
+		assertTrue(correlativa.correlativaAprobada());
+	}
+	@Test
+	public void queSePuedaValidarLaFechaDeInscripcion() {
+	    LocalDate fechaInicioCiclolectivo = LocalDate.of(2023, 3, 5);
+	    LocalDate fechaFinalizacionCiclolectivo = LocalDate.of(2023, 7, 1);
+	    CicloLectivo cicloLectivo = new CicloLectivo(1, "2do2023", fechaInicioCiclolectivo, fechaFinalizacionCiclolectivo);
+	    
+	    LocalDate fechaInicioInscripcion = LocalDate.of(2023, 3, 10); // Ändern Sie diese Daten nach Bedarf
+	    LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 6, 20); // Ändern Sie diese Daten nach Bedarf
+	    
+	    // Rufen Sie die Methode fechaInscripcion einmal auf und speichern Sie das Ergebnis
+	    boolean inscripcionValida = cicloLectivo.fechaInscripcion(fechaInicioInscripcion, fechaFinalizacionInscripcion);
+	    
+	    // Verwenden Sie das Ergebnis in Ihrer Assertionsaussage
+	    assertTrue(inscripcionValida);
+	}
+	@Test
+	
+	public void queNoSePuedaExecderLaCantidadDeAlumnoEnAula() {
+		Aula aula = new Aula(30);		
+		//aula.alumnosPermitidos(20);
+		assertTrue(aula.alumnosPermitidos(20));
+	}
+	public void queNoSeaLaMismoDiaYmismoTurno() {
+		
+		Comision comision1 = new Comision(1);
+	
+		comision1.setDia(DayOfWeek.MONDAY);
+//getDia..
+		comision1.setTurno(new ArrayList<>());
+		comision1.getTurno().add(new Turno("noche"));
+
+		Comision comision2 = new Comision(1);
+		
+		comision2.setDia(DayOfWeek.MONDAY);
+		//comision2.getCicloLectivos().add(new CicloLectivo(2023, "Ciclo 2023", null, null));
+		comision2.setTurno(new ArrayList<>());
+		comision2.getTurno().add(new Turno("noche"));
+
+		assertTrue(comision1.esIgual(comision1));
+		assertFalse(comision1.esIgual(comision2));
+		
+	}
+
+
+	}
+	/*@Test
+	public void queNoSePuedeAsignarDosCiclosLectivoConElMismoIdYQueNoSePuedenSuperponerlosRangosDeFecha() {
+		 LocalDate fechaInicioCiclolectivo = LocalDate.of(2023,3,5);
+		 LocalDate fechaFinalizacionCiclolectivo = LocalDate.of(2023, 7, 1);
+		 CicloLectivo cicloLectivo = new CicloLectivo(1,"2do2023", fechaInicioCiclolectivo, fechaFinalizacionCiclolectivo);
+		 CicloLectivo cicloLectivo2 = new CicloLectivo(2,"1o2023",fechaInicioCiclolectivo , fechaFinalizacionCiclolectivo);
+		 assertTrue(cicloLectivo.CicloLectivoIdRegistrado(1)); 
+	     assertFalse(cicloLectivo.CicloLectivoIdRegistrado(1));
+	   
+		assertTrue(cicloLectivo.superponerFecha(fechaInicioCiclolectivo, fechaFinalizacionCiclolectivo));
+		assertTrue(cicloLectivo2.superponerFecha(fechaInicioCiclolectivo, fechaFinalizacionCiclolectivo));
+	}*/

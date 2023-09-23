@@ -13,6 +13,7 @@ public class Universidad {
 	private ArrayList<CicloLectivo> cicloLectivo;
 	private ArrayList<Comision> comision;
 	private ArrayList<Profesor> profesor;
+	private ArrayList<Materia> correlativas;
 
 	public Universidad(String nombre) {
 		this.nombre = nombre;
@@ -22,6 +23,7 @@ public class Universidad {
 		this.cicloLectivo = new ArrayList<>();
 		this.comision = new ArrayList<>();
 		this.profesor = new ArrayList<>();
+		this.correlativas = new ArrayList<>();
 	}
 
 //agregar Alumno
@@ -183,25 +185,92 @@ public class Universidad {
 			if (this.profesor.get(i).getDni().equals(dni))
 				return this.profesor.get(i);
 		}
-		
+
 		return null;
 	}
+
 //Agregar un Profesor a una comision que no sea el mismo
-		public boolean mismoProfesor(Profesor profesor) {
-	    for (Comision comision : comision) {
-	        if (comision.getProfesores().contains(profesor)) {
-	            // Der Professor wurde gefunden, geben Sie true zurück
-	            return true;
-	        }
-	    }
-	    
-	    // Der Professor wurde nicht gefunden, versuchen Sie, ihn zur Comision hinzuzufügen
-	    return asignarProfesorAComision(profesor);
+	public boolean mismoProfesor(Profesor profesor) {
+		for (Comision comision : comision) {
+			if (comision.getProfesores().contains(profesor)) {
+				// Der Professor wurde gefunden, geben Sie true zurück
+				return true;
+			}
+		}
+
+		// Der Professor wurde nicht gefunden, versuchen Sie, ihn zur Comision
+		// hinzuzufügen
+		return asignarProfesorAComision(profesor);
 	}
 
 	public boolean asignarProfesorAComision(Profesor profesor) {
-	    // Fügen Sie den Professor zur Comision hinzu, falls er nicht gefunden wurde
-	    Comision nuevaComision = new Comision(); // Sie müssen hier die Logik zum Hinzufügen zur Comision implementieren
-	    return nuevaComision.getProfesores().add(profesor);
+		// Fügen Sie den Professor zur Comision hinzu, falls er nicht gefunden wurde
+		Comision nuevaComision = new Comision(1); // Sie müssen hier die Logik zum Hinzufügen zur Comision implementieren
+		return nuevaComision.getProfesores().add(profesor);
 	}
-}
+
+	// agregar Correlatividad
+	public boolean agregarCorelatividad(Materia correlativa) {
+		if (!correlativas.contains(correlativa)) {
+			correlativas.add(correlativa);
+			return true;
+		}
+		return false;
+	}
+
+	// agregar Correlativa y si existe id-correlativa y - materia
+	public boolean agregarCorrelatividad(Integer idCorrelativa, Integer idMateria) {
+		if (!correlativas.contains(idCorrelativa)) {
+			correlativas.add(new Materia(idCorrelativa, nombre)); // Sie müssen den Namen entsprechend setzen
+			return true;
+		}
+		return false;
+	}
+
+	public boolean verificacionCorrelatividad(Integer idCorrelativa) {
+		for (Materia correlativa : correlativas) {
+			if (correlativa.getMateriaId().equals(idCorrelativa)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// eliminar Correlatividad
+	public Materia existeCorrelatividad(Integer idCorrelativa, Integer materiaId) {
+		for (Materia materia : correlativas) {
+			if (correlativas.contains(idCorrelativa) && (correlativas.contains(materiaId)))
+				return materia;
+			;
+		}
+		return null;
+
+	}
+
+	public boolean eliminarCorrelatividad(Integer idCorrelativaAELiminar) {
+		Materia correlatividad = existeCorrelatividad(idCorrelativaAELiminar, idCorrelativaAELiminar);
+		  if (correlativas.contains(idCorrelativaAELiminar)) {
+		        correlativas.remove(idCorrelativaAELiminar);
+		        return true; // Correlatividad eliminada exitosamente
+		    } else {
+		        return false; // La correlatividad no existe
+		    }
+   }
+	//inscribirAlumno a comision
+	//comision?universid
+	public boolean dadoDeAlta(Integer dni, Integer comisionId) {
+		for (Alumno alumno : alumnos) {
+		for (Comision comision : comision) {
+			if (alumno.getDni().equals(dni)&&(comision.getComisionId().equals(comisionId))) {
+				return true;
+			}
+		}	
+		}
+		return false;
+	}
+
+			
+		
+	}
+	//inscribir alumnoAComision
+	//if,dadoDeAlta,aprobadoLaCorrelativae

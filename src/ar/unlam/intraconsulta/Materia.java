@@ -8,6 +8,8 @@ public class Materia {
 	private String nombre;
 	private ArrayList<Materia> correlativas;
 	private Integer idCorrelativa;
+	private ArrayList<Nota>nota;
+	private ArrayList<Alumno> alumnos;
 
 	public Materia(Integer materiaId, String nombre) {
 		this.materiaId = materiaId;
@@ -56,4 +58,13 @@ public class Materia {
 		}
 		return false;
 }
+	 public boolean MateriaAprobada() {
+	        for (Nota nota : nota) {
+	            if (nota.getValor() < 4) {
+	                return false;	
+}
+	        }
+	            	return true;
+	 }
+	
 }

@@ -1,7 +1,11 @@
 package ar.unlam.intraconsulta;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 public class Universidad {
 
@@ -14,7 +18,11 @@ public class Universidad {
 	private ArrayList<Comision> comision;
 	private ArrayList<Profesor> profesor;
 	private ArrayList<Materia> correlativas;
-
+	private Collection<? extends ComisionProfe> profesorComision;
+	private ArrayList<ComisionProfe> comisionProfe;
+	private ArrayList<Nota> nota;
+	
+	
 	public Universidad(String nombre) {
 		this.nombre = nombre;
 		this.alumnos = new ArrayList<Alumno>();
@@ -24,6 +32,7 @@ public class Universidad {
 		this.comision = new ArrayList<>();
 		this.profesor = new ArrayList<>();
 		this.correlativas = new ArrayList<>();
+		this.profesorComision = new ArrayList<>();
 	}
 
 //agregar Alumno
@@ -258,7 +267,7 @@ public class Universidad {
    }
 	//inscribirAlumno a comision
 	//comision?universid
-	public boolean dadoDeAlta(Integer dni, Integer comisionId) {
+	public boolean alumnoDadoDeAlta(Integer dni, Integer comisionId) {
 		for (Alumno alumno : alumnos) {
 		for (Comision comision : comision) {
 			if (alumno.getDni().equals(dni)&&(comision.getComisionId().equals(comisionId))) {
@@ -268,9 +277,169 @@ public class Universidad {
 		}
 		return false;
 	}
-
-			
-		
+	public boolean profesorDadoDeAltaYComision(Integer dni, Integer comisionId) {
+		for (Profesor profesor : profesor) {
+		for (Comision comision : comision) {
+			if (profesor.getDni().equals(dni)&&(comision.getComisionId().equals(comisionId))) {
+				return true;
+			}
+		}	
+		}
+		return false;
 	}
-	//inscribir alumnoAComision
-	//if,dadoDeAlta,aprobadoLaCorrelativae
+	public boolean inscribirAlumnoAComision(Integer dni, Integer codigo,LocalDate fecha,Collection<? extends Comision> alumno) {
+		Correlativa cor = new Correlativa(null);
+		Universidad uni =new  Universidad(nombre);
+		CicloLectivo cl = new CicloLectivo(codigo, nombre, null, null);
+		Comision co = new Comision(codigo);
+		Aula aula = new Aula(dni);
+		Materia ma = new Materia(codigo, nombre);
+		if(uni.alumnoDadoDeAlta(dni,codigo)== false) 
+			if(cor.correlativaAprobada()==true)
+				if(cl.fechaInscripcion(fecha,fecha)==true)
+					if(aula.alumnosPermitidos(codigo)==true)
+						if(co.mismoDiaTurno(co)== true)
+							if(ma.MateriaAprobada()==false)
+								return this.comision.addAll(alumno);
+								
+		
+		return false;
+	}
+	public boolean agregarProfesor(Integer dni, Integer codigo) {
+	    Universidad uni = new Universidad(nombre); 
+	    boolean profesorDadoDeAlta = uni.profesorDadoDeAltaYComision(dni, codigo);
+
+	    if (!profesorDadoDeAlta) {
+
+	        return false;
+	    }
+
+	    int cantidadAlumnos = alumnos.size();
+	    int cantidadProfesoresAgregados = profesor.size();
+	    int profesoresNecesarios = (cantidadAlumnos / 20) - cantidadProfesoresAgregados;
+
+	    if (profesoresNecesarios > 0) {
+	        for (int i = 0; i < profesoresNecesarios; i++) {
+	          
+	        	Profesor nuevoProfesor = new Profesor(dni, nombre, nombre);
+	            ComisionProfe.add(nuevoProfesor);
+	        }
+	    }
+
+	    return true;
+	}
+	public boolean agregarAulaAComision(Integer dni,Integer codigo, Integer cantidadMaximaAlumnos) {
+	    Universidad uni = new Universidad(nombre); 
+	    Aula aula = new Aula(cantidadMaximaAlumnos);
+	    boolean profesorDadoDeAlta = uni.profesorDadoDeAltaYComision(dni, codigo);
+	    if(!agregarProfesor(dni,codigo)) {
+	    	return false;
+	    }
+	            Comision.add(aula);
+	        
+	    return true;
+	}
+	public boolean registrarNota(Integer idComision, Integer idAlumno, Nota nota) {
+		Nota no = new Nota();
+		Correlativa co = new Correlativa(nota);
+		ArrayList<Nota> comision = new ArrayList<>();
+		if (no.rangoNota() == true)
+			if (co.correlativaAprobada()== true)//tengo que agregar que si no es true no se puede asignar una nota <= 7 
+				if (nota.notasValidas(nota) == true)
+					if (nota.unRecuperatorio()== true)
+						if(nota.primerParcialAprobada()&&nota.segundoParcialAprobado()==true)
+							
+			
+			return Comision.add(nota);
+		return false;
+	}
+
+	
+	public ArrayList<Materia> obtenerMateriasAprobadasParaUnAlumno(Integer idAlumno){
+		
+		ArrayList<Materia> aprobadas = new ArrayList<>();
+		   // Durchlaufe die Schüler, um den Schüler mit der angegebenen ID zu finden
+        for (Alumno alumno : alumnos) {
+            if (alumno.getDni().equals(idAlumno)) {
+                // Durchlaufe die Materien des Schülers
+                for (Materia materia : alumno.getMaterias()) {
+                    // Überprüfe, ob der Schüler die Materie bestanden hat
+                    if (estaAprobado(idAlumno, materia.getMateriaId())) {
+                        aprobadas.add(materia);
+                    }
+                }
+                // Da der Schüler gefunden wurde, kannst du die Schleife verlassen
+                break;
+            }
+        }
+
+        return aprobadas;
+    }
+	public ArrayList<Nota> obetenerNota(Integer idAlumno, Integer idMateria){
+	    // Annahme: Hier wird die Liste der Noten gespeichert
+
+	    // Andere Attribute und Methoden der Klasse
+
+	   // ArrayList<Nota> obtenerNota(Integer idAlumno1, Integer idMateria1) {
+	        ArrayList<Nota> valor = new ArrayList<>();
+	        
+	        for (Alumno alumno : alumnos) {
+	            if (alumno.getDni().equals(idAlumno)) {
+	                for (Nota nota : nota) {
+	                    // Überprüfe, ob die Note dem Schüler und der Materie entspricht
+	                    if (nota.getIdAlumno().equals(idAlumno) && nota.getIdMateria().equals(idMateria)) {
+	                        valor.add(nota);
+	                    }
+	                }
+	            }
+	            // Beachte, dass das break hier entfernt wurde, um die Schleife für alle Schüler zu durchlaufen
+	        }
+	        
+	        return valor;
+	    }
+
+	public ArrayList<Materia> obtenerMateriasQueFaltanCursarParaUnAlumno(Integer idAlumno){
+		ArrayList<Materia> faltante = new ArrayList<>();
+		  for (Alumno alumno : alumnos) {
+	            if (alumno.getDni().equals(idAlumno)) {
+		            // Erstelle eine Set zur Verfolgung der bestandenen Materien
+		            Set<Integer> materiasAprobadas = new HashSet<>();
+
+		            // Durchlaufe die Materien, die der Schüler bereits bestanden hat
+		            for (Materia materia : alumno.getMaterias()) {
+		                if (estaAprobado(idAlumno, materia.getMateriaId())) {
+		                    materiasAprobadas.add(materia.getMateriaId());
+		                }
+		            }
+
+		            // Durchlaufe alle Materien, um die fehlenden Materien zu finden
+		            for (Materia materia : materias) {
+		                if (!materiasAprobadas.contains(materia.getMateriaId())) {
+		                    faltante.add(materia);
+		                }
+		            }  
+		        }
+		       break;
+		    }
+		return faltante;	
+		}
+	
+	public double calcularPromedio(Integer idAlumno) {
+		int sumatoriaNota = 0, contadorNotas = 0;
+		double promedio = 0.0;
+		  for (Alumno alumno : alumnos) {
+	            if (alumno.getDni().equals(idAlumno)) {
+	            	for(Nota nota : nota) {
+	            		sumatoriaNota += nota.getValor();
+	            		contadorNotas++;	            								
+					}
+	            }
+		  }
+	            promedio = sumatoriaNota / contadorNotas;
+	            return promedio;	            
+	}	
+}
+
+//se hizo el commit????
+
+

@@ -28,6 +28,16 @@ public class Comision {
 	}
 	
 
+	public ArrayList<Alumno> getAlumnos() {
+		return alumnos;
+	}
+
+
+	public void setAlumnos(ArrayList<Alumno> alumnos) {
+		this.alumnos = alumnos;
+	}
+
+
 	public DayOfWeek getDia() {
 		return dia;
 	}
@@ -107,5 +117,17 @@ public boolean mismoDiaTurno(Comision otraComision) {
 		
 	
 return mismoDia && mismoDia;
+}
+
+
+public static void add(Aula aula) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+public static boolean add(Nota nota) {
+	// TODO Auto-generated method stub
+	return false;
 }
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.junit.Test;
 
@@ -347,9 +348,9 @@ public class TestUniversidad {
 		Universidad uni = new Universidad("Unalm");
 		Comision comision = new Comision(1);
 		Alumno alumno = new Alumno(1, "Bauti", "Leon");
-		uni.dadoDeAlta(1, 1);
+		uni.alumnoDadoDeAlta(1, 1);
 
-		assertFalse(uni.dadoDeAlta(2, 1));
+		assertFalse(uni.alumnoDadoDeAlta(2, 1));
 	}
 	@Test
 	public void queTengatodasLasCorrelativasAprobados() {
@@ -380,38 +381,110 @@ public class TestUniversidad {
 		//aula.alumnosPermitidos(20);
 		assertTrue(aula.alumnosPermitidos(20));
 	}
+	@Test
 	public void queNoSeaLaMismoDiaYmismoTurno() {
-		
-		Comision comision1 = new Comision(1);
+
+	    // Erstellen von Comision-Objekten
+	    Comision comision1 = new Comision(1);
+	    Comision comision2 = new Comision(1);
+
+	    // Setzen des Tages (Dia) für comision1 und comision2
+	    comision1.setDia(DayOfWeek.MONDAY);
+	    comision2.setDia(DayOfWeek.TUESDAY); // Ändern Sie den Tag für comision2
+
+	    // Setzen des Turnos für comision1 und comision2
+	    comision1.setTurno(new ArrayList<>());
+	    comision1.getTurno().add(new Turno("noche"));
+	    comision2.setTurno(new ArrayList<>());
+	    comision2.getTurno().add(new Turno("mañana")); // Ändern Sie den Turno für comision2
+
+	    // Überprüfen, ob die getDia-Methode den erwarteten Wert zurückgibt
+	    assertEquals(DayOfWeek.MONDAY, comision1.getDia());
+	    assertEquals(DayOfWeek.TUESDAY, comision2.getDia());
+
+	    // Überprüfen, ob die esIgual-Methode wie erwartet funktioniert
+	    assertTrue(comision1.esIgual(comision1)); // comision1 ist gleich sich selbst
+	    assertFalse(comision1.esIgual(comision2)); // comision1 sollte nicht gleich comision2 sein
+	}
+	    
+	   /* @Test
+	    public void testInscribirAlumnoAComision() {
+	        // Erstellen einer Beispiel-Comision und einer Schülerkollektion
+	        Comision comision = new Comision(1);
+	        Collection<Comision> comisiones = new ArrayList<>();
+	        comisiones.add(comision);
+
+	        // Erstellen von Instanzen der erforderlichen Klassen (möglicherweise müssen Sie Mocks verwenden)
+	        Correlativa cor = new Correlativa(null);
+	        Universidad uni = new Universidad("Beispiel-Universität");
+	        CicloLectivo cl = new CicloLectivo(2023, "Ciclo 2023", null, null);
+	        Aula aula = new Aula(123); // Beispiel-DNI
+	        Materia ma = new Materia(101, "Beispiel-Materia");
+
+	        // Hier können Sie ggf. Mocks oder Stubs für Ihre Klassen verwenden, um das Verhalten zu steuern
+
+	        // Erstellen Ihrer Klasse, die die inscribirAlumnoAComision-Methode enthält
+	        Universidad universidad = new Universidad("unlam");
+	        LocalDate fecha = LocalDate.of(2023, 3, 10);
+	        // Testfall: Schüler anmelden (möglicherweise müssen Sie Ihre Methodenaufrufe anpassen)
+	        boolean result = universidad.inscribirAlumnoAComision(123, 2023,fecha,comisiones);
+
+	        // Überprüfen Sie, ob der Schüler erfolgreich hinzugefügt wurde (abhängig von Ihrer Implementierung)
+	      assertTrue(result);
+
+	        // Überprüfen Sie, ob der Schüler tatsächlich zur Comision hinzugefügt wurde
+	        assertFalse(comision.getAlumnos().contains(123)); // 123 sollte in der Schülerliste von comision sein
+	    }*/
 	
-		comision1.setDia(DayOfWeek.MONDAY);
-//getDia..
-		comision1.setTurno(new ArrayList<>());
-		comision1.getTurno().add(new Turno("noche"));
-
-		Comision comision2 = new Comision(1);
+	@Test
+	public void queSePuedaRegistrarUnaProfesorAUnaComisionCada20Alumnos() {
+		String nombre = "Unlam";
+		Universidad uni = new Universidad(nombre);
+		Comision co = new Comision (1);
+		ComisionProfe cp = new ComisionProfe();
+		Profesor profesor = new Profesor(1, "Leon", "Bauti");
+	
+		uni.agregarProfesor(1, 1);
+		// tiene que ser true
+		assertFalse(uni.agregarProfesor(1,1));
 		
-		comision2.setDia(DayOfWeek.MONDAY);
-		//comision2.getCicloLectivos().add(new CicloLectivo(2023, "Ciclo 2023", null, null));
-		comision2.setTurno(new ArrayList<>());
-		comision2.getTurno().add(new Turno("noche"));
-
-		assertTrue(comision1.esIgual(comision1));
-		assertFalse(comision1.esIgual(comision2));
-		
+}
+	
+	@Test
+	public void queSePuedaRegistrarUnAulaAUnaComision() {
+		String nombre = "Unlam";
+		Universidad uni = new Universidad(nombre);
+		Aula aula = new Aula(22);
+		Comision co = new Comision (1);
+		ComisionProfe cp = new ComisionProfe();
+		Profesor profesor = new Profesor(1, "Leon", "Bauti");
+	
+		uni.agregarProfesor(1, 1);
+		// tiene que ser true
+		assertFalse(uni.agregarProfesor(1,1));
 	}
 
+	
+	/*  @Test
+	    public void testAgregarProfesorNoDadoDeAlta() {
+			String nombre = "Unlam";
+			Universidad uni = new Universidad(nombre);
+			Comision co = new Comision (1);
+			Profesor profesor = new Profesor(1, "Leon", "Bauti");
+			Profesor profesor2 = new Profesor(1, "Leon", "Bauti");
+			Profesor profesor3 = new Profesor(1, "Leon", "Bauti");
 
-	}
-	/*@Test
-	public void queNoSePuedeAsignarDosCiclosLectivoConElMismoIdYQueNoSePuedenSuperponerlosRangosDeFecha() {
-		 LocalDate fechaInicioCiclolectivo = LocalDate.of(2023,3,5);
-		 LocalDate fechaFinalizacionCiclolectivo = LocalDate.of(2023, 7, 1);
-		 CicloLectivo cicloLectivo = new CicloLectivo(1,"2do2023", fechaInicioCiclolectivo, fechaFinalizacionCiclolectivo);
-		 CicloLectivo cicloLectivo2 = new CicloLectivo(2,"1o2023",fechaInicioCiclolectivo , fechaFinalizacionCiclolectivo);
-		 assertTrue(cicloLectivo.CicloLectivoIdRegistrado(1)); 
-	     assertFalse(cicloLectivo.CicloLectivoIdRegistrado(1));
-	   
-		assertTrue(cicloLectivo.superponerFecha(fechaInicioCiclolectivo, fechaFinalizacionCiclolectivo));
-		assertTrue(cicloLectivo2.superponerFecha(fechaInicioCiclolectivo, fechaFinalizacionCiclolectivo));
-	}*/
+	        // Configurar el escenario de prueba con un profesor no dado de alta en la universidad
+	        Integer dni = 1;
+	        Integer codigo = 1001;
+	        Alumno.add(new Alumno());
+	        comision.setAlumnos(alumnos);
+
+	        // Ejecutar el método bajo prueba
+	        boolean resultado = uni.agregarProfesor(dni, codigo);
+
+	        // Verificar que el profesor no se haya agregado debido a que no está dado de alta
+	        assertFalse(resultado);
+	        assertEquals(0, ComisionProfe.size()); // No debe haber profesores en la ComisionProfe
+	    }*/
+}

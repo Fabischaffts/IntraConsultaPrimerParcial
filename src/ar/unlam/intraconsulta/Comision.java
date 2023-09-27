@@ -12,10 +12,11 @@ public class Comision {
 	private ArrayList<Turno> turno;
 	private ArrayList<CicloLectivo> cicloLectivos;
 	private ArrayList<Profesor> profesores;
-	// private ArrayList <InscripcionAComision> inscripcionAComision;
 	private ArrayList<Comision> comision;
+	private ArrayList<Comision> notaAgregada;
+	
 	private DayOfWeek dia;
-	//registros de examenes
+	
 
 	public Comision(Integer comisionId) {
 
@@ -28,6 +29,16 @@ public class Comision {
 		this.dia =dia;
 	}
 	
+
+	public ArrayList<Comision> getNotaAgregada() {
+		return notaAgregada;
+	}
+
+
+	public void setNotaAgregada(ArrayList<Comision> notaAgregada) {
+		this.notaAgregada = notaAgregada;
+	}
+
 
 	public ArrayList<Alumno> getAlumnos() {
 		return alumnos;
@@ -111,14 +122,6 @@ public class Comision {
 
 		return mismaMateria && mismoCicloLectivo && mismoTurno;
 	}
-public boolean mismoDiaTurno(Comision otraComision) {
-	//for (Alumno alumno : alumnos) {
-	boolean mismoDia = this.dia.equals(otraComision.getDia());
-	boolean mismoTurno = this.turno.equals(otraComision.getTurno());
-		
-	
-return mismoDia && mismoDia;
-}
 
 
 public static void add(Aula aula) {
@@ -127,10 +130,19 @@ public static void add(Aula aula) {
 }
 
 
-public static boolean add(Nota nota) {
+public static boolean add(Comision notaAgregada2) {
 	// TODO Auto-generated method stub
 	return false;
 }
+
+
+public static boolean add(ArrayList<Nota> comision2) {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+
+
 
 
 

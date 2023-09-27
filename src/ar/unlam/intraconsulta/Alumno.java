@@ -19,6 +19,22 @@ public class Alumno {
 	this.materias = new ArrayList<>();
 	}
 
+	public LocalDate getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public LocalDate getFechaDeIngreso() {
+		return fechaDeIngreso;
+	}
+
+	public void setFechaDeIngreso(LocalDate fechaDeIngreso) {
+		this.fechaDeIngreso = fechaDeIngreso;
+	}
+
 	public ArrayList<Materia> getMaterias() {
 		return materias;
 	}

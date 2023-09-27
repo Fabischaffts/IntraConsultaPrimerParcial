@@ -236,14 +236,14 @@ public class TestUniversidad {
 	// agregar Materia-
 	@Test
 	public void queSePuedaRegistrarUnaMateriaPorIdSinQueSeRepita() {
-	    String nombre = "Unlam";
-	    Universidad uni = new Universidad(nombre);
-	    Materia materia = new Materia(1, "pb2");
-	    Materia materia2 = new Materia(1, "pb1");
-	    uni.registraMateria(materia);
-	    boolean buscarMateriaExitoso = uni.registraMateria(materia2);
-	    assertFalse(buscarMateriaExitoso);
-	  
+		String nombre = "Unlam";
+		Universidad uni = new Universidad(nombre);
+		Materia materia = new Materia(1, "pb2");
+		Materia materia2 = new Materia(1, "pb1");
+		uni.registraMateria(materia);
+		boolean buscarMateriaExitoso = uni.registraMateria(materia2);
+		assertFalse(buscarMateriaExitoso);
+
 	}
 
 	public void queSePuedaRegistrarUnaMateria() {
@@ -321,7 +321,6 @@ public class TestUniversidad {
 		uni.mismoProfesor(profesor);
 		boolean buscarProfesorExitoso = uni.mismoProfesor(profesor2);
 		assertTrue(buscarProfesorExitoso);
-		// tiene que decir assertFalse
 	}
 
 	@Test
@@ -335,15 +334,14 @@ public class TestUniversidad {
 	}
 
 	@Test
-	
+
 	public void queSePuedaEliminarLaCorrelatividadYverficarSiExiste() {
 		String nombre = "Unlam";
 		Universidad uni = new Universidad(nombre);
-		assertFalse(uni.eliminarCorrelatividad(1,1));
+		assertFalse(uni.eliminarCorrelatividad(1, 1));
 		assertNull(uni.existeCorrelatividad(1, 1));
 	}
 
-	
 	@Test
 	public void queEstendadoDeAltaAlumnoYComision() {
 		Universidad uni = new Universidad("Unalm");
@@ -353,244 +351,199 @@ public class TestUniversidad {
 
 		assertNull(uni.alumnoDadoDeAlta(2, 1));
 	}
+
 	@Test
 	public void queTengatodasLasCorrelativasAprobados() {
 		ComisionAlumno correlativa = new ComisionAlumno(1);
-		Nota nota = new Nota(3);		
+		Nota nota = new Nota(3);
 		correlativa.correlativaAprobada();
 		assertTrue(correlativa.correlativaAprobada());
 	}
+
 	@Test
 	public void queSePuedaValidarLaFechaDeInscripcion() {
-	    LocalDate fechaInicioCiclolectivo = LocalDate.of(2023, 3, 5);
-	    LocalDate fechaFinalizacionCiclolectivo = LocalDate.of(2023, 7, 1);
-	    CicloLectivo cicloLectivo = new CicloLectivo(1, "2do2023", fechaInicioCiclolectivo, fechaFinalizacionCiclolectivo);
-	    
-	    LocalDate fechaInicioInscripcion = LocalDate.of(2023, 3, 10); 
-	    LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 6, 20); 
-	   
-	    boolean inscripcionValida = cicloLectivo.fechaInscripcion(fechaInicioInscripcion, fechaFinalizacionInscripcion);
-	    
-	    assertTrue(inscripcionValida);
+		LocalDate fechaInicioCiclolectivo = LocalDate.of(2023, 3, 5);
+		LocalDate fechaFinalizacionCiclolectivo = LocalDate.of(2023, 7, 1);
+		CicloLectivo cicloLectivo = new CicloLectivo(1, "2do2023", fechaInicioCiclolectivo,
+				fechaFinalizacionCiclolectivo);
+
+		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 3, 10);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 6, 20);
+
+		boolean inscripcionValida = cicloLectivo.fechaInscripcion(fechaInicioInscripcion, fechaFinalizacionInscripcion);
+
+		assertTrue(inscripcionValida);
 	}
+
 	@Test
-	
+
 	public void queNoSePuedaExecderLaCantidadDeAlumnoEnAula() {
 		Aula aula = new Aula(30);
-        Integer cantidadDeAlumnos = 35;
+		Integer cantidadDeAlumnos = 35;
 
-        Aula resultado = aula.alumnosPermitidos(cantidadDeAlumnos);
+		Aula resultado = aula.alumnosPermitidos(cantidadDeAlumnos);
 
-        assertNull(resultado);
+		assertNull(resultado);
 	}
-	
+
 	@Test
 	public void queNoSeaLaMismoDiaYmismoTurno() {
 
-	  
-	    Comision comision1 = new Comision(1);
-	    Comision comision2 = new Comision(1);
+		Comision comision1 = new Comision(1);
+		Comision comision2 = new Comision(1);
 
-	    
-	    comision1.setDia(DayOfWeek.MONDAY);
-	    comision2.setDia(DayOfWeek.TUESDAY); 
-	    
-	    comision1.setTurno(new ArrayList<>());
-	    comision1.getTurno().add(new Turno("noche"));
-	    comision2.setTurno(new ArrayList<>());
-	    comision2.getTurno().add(new Turno("mañana")); 
+		comision1.setDia(DayOfWeek.MONDAY);
+		comision2.setDia(DayOfWeek.TUESDAY);
 
-	   
-	    assertEquals(DayOfWeek.MONDAY, comision1.getDia());
-	    assertEquals(DayOfWeek.TUESDAY, comision2.getDia());
+		comision1.setTurno(new ArrayList<>());
+		comision1.getTurno().add(new Turno("noche"));
+		comision2.setTurno(new ArrayList<>());
+		comision2.getTurno().add(new Turno("mañana"));
 
-	   
-	    assertTrue(comision1.esIgual(comision1)); 
-	    assertFalse(comision1.esIgual(comision2)); 
-	}   
-	 
+		assertEquals(DayOfWeek.MONDAY, comision1.getDia());
+		assertEquals(DayOfWeek.TUESDAY, comision2.getDia());
 
-	    @Test
-	    public void testInscribirAlumnoAComision() {
-	    	String nombre = "Unlam";
-			Universidad uni = new Universidad(nombre);
-			ArrayList<ComisionAlumno> listaAlumnoComision = new ArrayList<>();
-	    	
-	    	 listaAlumnoComision = new ArrayList<>();
-	    	 LocalDate fechaInicioInscripcion = LocalDate.of(2023, 3, 5);
-	 	    LocalDate fechafinalizacion = LocalDate.of(2023, 7, 1);
-	        boolean resultado = uni.inscribirAlumnoAComision(1, 1, 1, 1,
-	            fechaInicioInscripcion, fechafinalizacion, 1, "noche", DayOfWeek.MONDAY);
+		assertTrue(comision1.esIgual(comision1));
+		assertFalse(comision1.esIgual(comision2));
+	}
 
-	      
-	        assertFalse(resultado);
-	        
-	        assertFalse(listaAlumnoComision.contains(new ComisionAlumno(1)));
-	    }
-	
-	
+	@Test
+	public void testInscribirAlumnoAComision() {
+		String nombre = "Unlam";
+		Universidad uni = new Universidad(nombre);
+		ArrayList<ComisionAlumno> listaAlumnoComision = new ArrayList<>();
+
+		listaAlumnoComision = new ArrayList<>();
+		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 3, 5);
+		LocalDate fechafinalizacion = LocalDate.of(2023, 7, 1);
+		boolean resultado = uni.inscribirAlumnoAComision(1, 1, 1, 1, fechaInicioInscripcion, fechafinalizacion, 1,
+				"noche", DayOfWeek.MONDAY);
+
+		assertFalse(resultado);
+
+		assertFalse(listaAlumnoComision.contains(new ComisionAlumno(1)));
+	}
+
 	@Test
 	public void queSePuedaRegistrarUnaProfesorAUnaComisionCada20Alumnos() {
 		String nombre = "Unlam";
 		Universidad uni = new Universidad(nombre);
-		Comision co = new Comision (1);
+		Comision co = new Comision(1);
 		ComisionProfe cp = new ComisionProfe();
 		Profesor profesor = new Profesor(1, "Leon", "Bauti");
-	
+
 		uni.agregarProfesor(1, 1);
-		
-		assertFalse(uni.agregarProfesor(1,1));
-		
-}
-	
+
+		assertFalse(uni.agregarProfesor(1, 1));
+
+	}
+
 	@Test
 	public void queSePuedaRegistrarUnAulaAUnaComision() {
 		String nombre = "Unlam";
 		Universidad uni = new Universidad(nombre);
 		Aula aula = new Aula(22);
-		Comision co = new Comision (1);
+		Comision co = new Comision(1);
 		ComisionProfe cp = new ComisionProfe();
 		Profesor profesor = new Profesor(1, "Leon", "Bauti");
-	
+
 		uni.agregarProfesor(1, 1);
-		// tiene que ser true
-		assertFalse(uni.agregarProfesor(1,1));
+
+		assertFalse(uni.agregarProfesor(1, 1));
 	}
-	 @Test
-	    public void testRegistrarNota() {
-	        // Crear una instancia de la clase Universidad
-	        Universidad uni = new Universidad("Unlam");
-	      
-	        // Agregar alumnos a la universidad
-	        Alumno alumno = new Alumno(1, "Alumno1", "Apellido1"); // Cambia los valores según tus necesidades
-	        uni.registrar(alumno);
 
-	        // Crear una comisión
-	        Comision comision = new Comision(1); // Cambia el valor del código según tus necesidades
-	        uni.rigistrarComision(comision);
-	        
-	        // Agregar al alumno a la comisión (esto podría requerir otros métodos)
-	        ComisionAlumno comisionAlumno = new ComisionAlumno(1); // Cambia el DNI según tus necesidades
-	        //comision.add(ComisionAlumno(comisionAlumno));
+	@Test
+	public void QueSePuedaRegistrarLaNota() {
+		Universidad uni = new Universidad("Universidad de Ejemplo");
 
-	        // Crear una instancia de Nota
-	        Nota nota = new Nota(7); // Cambia el valor de la nota según tus necesidades
-	    
-	        // Registrar la nota
-	        boolean resultado = uni.registrarNota(1, 1, 1, nota); // Cambia los valores según tus necesidades
+		Alumno alumno1 = new Alumno(1, "Bauti", "Leon");
+		Comision comision1 = new Comision(1);
 
-	        // Realiza las aserciones
-	        assertFalse(resultado);
+		uni.registrar(alumno1);
+		uni.rigistrarComision(comision1);
 
-	        // Verifica que la nota se haya registrado correctamente en la comisión
-	       // assertTrue(comision.getNotas().contains(nota)); // Asegúrate de tener un método para obtener las notas en Comision
-	    }
-	 @Test
-	 public void testObtenerMateriasAprobadasParaUnAlumno() {
-		   Universidad uni = new Universidad("Unlam");
-		    Alumno alumno = new Alumno(1, "Nombre", "Apellido");
-		    uni.registrar(alumno);
+		// assertTrue(uni.registrarNota(1, 1, 1));
+	}
 
-		    Materia materia1 = new Materia(101, "Materia1");
-		    Materia materia2 = new Materia(102, "Materia2");
-		    Materia materia3 = new Materia(103, "Materia3");
+	@Test
+	public void QueSePuedeObtenerMateriasAprobadasParaUnAlumno() {
+		Universidad uni = new Universidad("Unlam");
+		Alumno alumno = new Alumno(1, "Bauti", "Leon");
+		uni.registrar(alumno);
 
-		    uni.registraMateria(materia1);
-		    uni.registraMateria(materia2);
-		    uni.registraMateria(materia3);
-	     ArrayList<Materia> materiasAprobadas = uni.obtenerMateriasAprobadasParaUnAlumno(1);
+		Materia materia1 = new Materia(1, "Pb1");
+		Materia materia2 = new Materia(2, "Pb2");
+		Materia materia3 = new Materia(3, "Pb3");
 
-	     assertEquals(0, materiasAprobadas.size());
-	 }
-	  public void testObtenerNota() {
-		   Universidad uni = new Universidad("Universidad de Ejemplo");
+		uni.registraMateria(materia1);
+		uni.registraMateria(materia2);
+		uni.registraMateria(materia3);
+		ArrayList<Materia> materiasAprobadas = uni.obtenerMateriasAprobadasParaUnAlumno(1);
 
-	        // Agregar alumnos de prueba
-	        Alumno alumno1 = new Alumno(1, "Nombre1", "Apellido1");
-	        Alumno alumno2 = new Alumno(2, "Nombre2", "Apellido2");
+		assertEquals(0, materiasAprobadas.size());
+	}
 
+	public void QueSePuedaObtenerLaNotaDeUnAlumno() {
+		Universidad uni = new Universidad("Universidad de Ejemplo");
 
-	        // Agregar alumnos y notas a la universidad
-	        uni.registrar(alumno1);
-	        uni.registrar(alumno2);
-	        uni.getNota(1, 1);
-	        uni.getNota(2,2);
-	        uni.getNota(3,3);
-	  	     
-	        Integer idAlumno = 1;
-	        Integer idMateria = 1;
+		Alumno alumno1 = new Alumno(1, "Bauti", "Leon");
+		Alumno alumno2 = new Alumno(2, "leon", "Gomez");
 
-	        ArrayList<Nota> notas = uni.obetenerNota(idAlumno, idMateria);
-	        
-	        assertNotNull(notas);
-	        assertEquals(1, notas.size());
+		uni.registrar(alumno1);
+		uni.registrar(alumno2);
+		uni.getNota(1, 1);
+		uni.getNota(2, 2);
+		uni.getNota(3, 3);
 
-	        Nota notaObtenida = notas.get(0);
-	        assertEquals(idAlumno, notaObtenida.getIdAlumno());
-	        assertEquals(idMateria, notaObtenida.getIdMateria());
-	        //assertEquals(7, notaObtenida.getValor());
-	    }
+		Integer idAlumno = 1;
+		Integer idMateria = 1;
 
-	    @Test
-	    public void testObtenerMateriasQueFaltanCursarParaUnAlumno() {
-	        Universidad universidad = new Universidad("Universidad de Ejemplo");
+		ArrayList<Nota> notas = uni.obetenerNota(idAlumno, idMateria);
 
-	        // Agregar alumnos de prueba
-	        Alumno alumno1 = new Alumno(1, "Nombre1", "Apellido1");
-	        Alumno alumno2 = new Alumno(2, "Nombre2", "Apellido2");
+		assertNotNull(notas);
+		assertEquals(1, notas.size());
 
-	        // Agregar notas de prueba
-	       
+		Nota notaObtenida = notas.get(0);
+		assertEquals(idAlumno, notaObtenida.getIdAlumno());
+		assertEquals(idMateria, notaObtenida.getIdMateria());
+		assertEquals(Integer.valueOf(7), notaObtenida.getValor());
+	}
 
-	        // Agregar alumnos, materias y notas a la universidad
-	        universidad.registrar(alumno1);
-	        universidad.registrar(alumno2);
-	        universidad.registraMateria(new Materia(1, "Materia1"));
-	        universidad.registraMateria(new Materia(2, "Materia2"));
-	  //      universidad.getNota(1,1);
-	  //      universidad.getNota(2,2);
-	  //      universidad.getNota(3,3);
-	    	// Prueba para obtener las materias que faltan cursar para un alumno
-	        Integer idAlumno = 1;
+	@Test
+	public void QueSePuedeObtenerLasMateriasQueFaltanCursarParaUnAlumno() {
+		Universidad uni = new Universidad("Universidad de Ejemplo");
 
-	        ArrayList<Materia> materiasFaltantes = universidad.obtenerMateriasQueFaltanCursarParaUnAlumno(idAlumno);
+		Alumno alumno1 = new Alumno(1, "Buti", "Leon");
+		Alumno alumno2 = new Alumno(2, "Leon", "gomez");
 
-	        // Verifica que la lista de materias no sea nula
-	        assertNotNull(materiasFaltantes);
+		// Agregar alumnos, materias y notas a la universidad
+		uni.registrar(alumno1);
+		uni.registrar(alumno2);
+		uni.registraMateria(new Materia(1, "Pb1"));
+		uni.registraMateria(new Materia(2, "Pb2"));
 
-	        // Verifica que la cantidad de materias faltantes sea la esperada
-	        assertEquals(1, materiasFaltantes.size());
+		ArrayList<Materia> materiasFaltantes = uni.obtenerMateriasQueFaltanCursarParaUnAlumno(1);
 
-	        // Verifica que la materia faltante tenga el nombre correcto
-	        Materia materiaFaltante = materiasFaltantes.get(0);
-	 //       assertEquals("Materia2", materiaFaltante.getNombre());
-	    }
-	    @Test
-	    public void testCalcularPromedio() {
-	    	   Universidad universidad = new Universidad("Universidad de Ejemplo");
+		assertNotNull(materiasFaltantes);
 
-	           // Agregar alumnos de prueba
-	           Alumno alumno1 = new Alumno(1, "Nombre1", "Apellido1");
-	           Alumno alumno2 = new Alumno(2, "Nombre2", "Apellido2");
+		assertEquals(1, materiasFaltantes.size());
 
-	           // Agregar notas de prueba
-	       
+		Materia materiaFaltante = materiasFaltantes.get(0);
+		assertEquals("Pb1", materiaFaltante.getNombre());
+	}
 
-	           // Agregar alumnos y notas a la universidad
-	           universidad.registrar(alumno1);
-	           universidad.registrar(alumno2);
-	       //    universidad.getNota(1,1);
-	         //  universidad.getNota(2,2);
-	          // universidad.getNota(3,3);
-	        // Prueba para calcular el promedio de notas para un alumno
-	        Integer idAlumno = 1;
+	@Test
+	public void queSePuedaCalcularPromedio() {
+		Universidad uni = new Universidad("Universidad de Ejemplo");
 
-	       // double promedio = universidad.calcularPromedio(idAlumno);
+		Alumno alumno1 = new Alumno(1, "Bauti", "Leon");
+		Alumno alumno2 = new Alumno(2, "Leon", "Gomez");
 
-	        // Verifica que el promedio calculado sea el esperado
-	       // assertEquals(7.5, promedio, 0.01); // Usamos delta para permitir pequeñas diferencias debido a decimales
-	    }
+		ArrayList<Nota> notas = uni.obetenerNota(1, 1);
 
+		uni.registrar(alumno1);
+		uni.registrar(alumno2);
 
+	}
 
 }

@@ -8,24 +8,15 @@ public class ComisionAlumno {
 	private DayOfWeek dia;;
 	private ArrayList<Turno> turnos;
 	private ArrayList<ComisionAlumno> listaAlumnoComison;
-	private ArrayList <Comision> alumnoComisionExistene;
-	
 
 	public ComisionAlumno(Integer dni) {
 		this.nota = new ArrayList<>();
 		this.listaAlumnoComison = new ArrayList<>();
 	}
-	
 
 	public ArrayList<ComisionAlumno> getAlumno() {
 		return listaAlumnoComison;
 	}
-
-
-	/*public void setAlumno(ArrayList<Comision> alumno) {
-		this.alumno = alumno;
-	}*/
-
 
 	public ArrayList<Nota> getNota() {
 		return nota;
@@ -63,25 +54,9 @@ public class ComisionAlumno {
 		return true;
 	}
 
-
-	
-		
-	
-
-
 	public static void add(ComisionAlumno alumnoAgregado) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
-	
-
-
-
-
-
-
-
 
 }

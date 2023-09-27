@@ -292,34 +292,32 @@ public class Universidad {
 	}
 
 	public boolean inscribirAlumnoAComision(Integer dni, Integer cantidadMaximaDeAlumnos, Integer valor, Integer codigo,
-	       
+
 			LocalDate fechaInicioInscripcion, LocalDate fechafinalizacion, Integer comisionId, String turno,
-	        DayOfWeek dia) {
-		  Universidad uni = alumnoDadoDeAlta(dni, comisionId);
-	        CicloLectivo cl = new CicloLectivo(comisionId, nombre, fechafinalizacion, fechafinalizacion);
-	        Aula aula = new Aula(cantidadMaximaDeAlumnos);
-	        if (this.listaAlumnoComision == null) {
-	            this.listaAlumnoComision = new ArrayList<>();
-	        }
-	    for (ComisionAlumno alumnoExistente : listaAlumnoComision) {
-	        // Crear una instancia de ComisionAlumno para el alumno actual
-	        ComisionAlumno alumnoAgregado = new ComisionAlumno(dni);
-	        if (uni.alumnoDadoDeAlta(dni, comisionId).equals(alumnoDadoDeAlta(dni, comisionId)))
+			DayOfWeek dia) {
+		Universidad uni = alumnoDadoDeAlta(dni, comisionId);
+		CicloLectivo cl = new CicloLectivo(comisionId, nombre, fechafinalizacion, fechafinalizacion);
+		Aula aula = new Aula(cantidadMaximaDeAlumnos);
+		if (this.listaAlumnoComision == null) {
+			this.listaAlumnoComision = new ArrayList<>();
+		}
+		for (ComisionAlumno alumnoExistente : listaAlumnoComision) {
+			// Crear una instancia de ComisionAlumno para el alumno actual
+			ComisionAlumno alumnoAgregado = new ComisionAlumno(dni);
+			if (uni.alumnoDadoDeAlta(dni, comisionId).equals(alumnoDadoDeAlta(dni, comisionId)))
 				if (alumnoAgregado.correlativaAprobada() == true)
-					if (cl.fechaInscripcion(fechaInicioInscripcion, fechafinalizacion)	== true)						
+					if (cl.fechaInscripcion(fechaInicioInscripcion, fechafinalizacion) == true)
 						if (aula.alumnosPermitidos(cantidadMaximaDeAlumnos)
 								.equals(aula.alumnosPermitidos(cantidadMaximaDeAlumnos)))
 							if (alumnoAgregado.mismoDiaTurno(dia, turno) == false)
 								if (alumnoAgregado.MateriaAprobada(valor) == false)
-	      
-	
-	            listaAlumnoComision.add(alumnoAgregado);
 
-	            return true; 
-	        }
-	    return false; 
+									listaAlumnoComision.add(alumnoAgregado);
+
+			return true;
+		}
+		return false;
 	}
-	
 
 	public boolean agregarProfesor(Integer dni, Integer codigo) {
 		Universidad uni = new Universidad(nombre);
@@ -357,20 +355,29 @@ public class Universidad {
 		return true;
 	}
 
-	public boolean registrarNota(Integer dni, Integer idComision, Integer idAlumno, Nota nota) {
-		Nota no = new Nota();
-		ComisionAlumno co = new ComisionAlumno(dni);
-		ArrayList<Nota> comision = new ArrayList<>();
-		if (no.rangoNota() == true)
-			if (co.correlativaAprobada() == true)// tengo que agregar que si no es true no se puede asignar una nota <=
-													// 7
-				if (nota.notasValidas(nota) == true)
-					if (nota.unRecuperatorio() == true)
-						if (nota.primerParcialAprobada() && nota.segundoParcialAprobado() == true)
+	public boolean registrarNota(Integer dni, Integer idComision, Integer idAlumno) {
 
-							return Comision.add(nota);
+		for (Alumno alumno : alumnos) {
+			if (alumno.getDni().equals(idAlumno)) {
+				for (Nota nota : nota) {
+					Nota no = new Nota();
+					ComisionAlumno co = new ComisionAlumno(dni);
+					Comision notaAgregada = new Comision(idComision);
+					comision = new ArrayList<Comision>();					
+					if (no.rangoNota() == true)
+						if (co.correlativaAprobada() == true)
+							if (nota.notasValidas(nota) == true)
+								if (nota.unRecuperatorio() == true)
+									if (nota.primerParcialAprobada() && nota.segundoParcialAprobado() == true)
+
+										return Comision.add(notaAgregada);
+				}
+			}
+		}
 		return false;
 	}
+
+
 
 	public ArrayList<Materia> obtenerMateriasAprobadasParaUnAlumno(Integer idAlumno) {
 
@@ -382,7 +389,7 @@ public class Universidad {
 						aprobadas.add(materia);
 					}
 				}
-				
+
 				break;
 			}
 		}
@@ -393,32 +400,29 @@ public class Universidad {
 	public ArrayList<Nota> obetenerNota(Integer idAlumno, Integer idMateria) {
 		// Annahme: Hier wird die Liste der Noten gespeichert
 
-		// Andere Attribute und Methoden der Klasse
-
-		// ArrayList<Nota> obtenerNota(Integer idAlumno1, Integer idMateria1) {
 		ArrayList<Nota> valor = new ArrayList<>();
 
 		for (Alumno alumno : alumnos) {
 			if (alumno.getDni().equals(idAlumno)) {
 				for (Nota nota : nota) {
-					// Überprüfe, ob die Note dem Schüler und der Materie entspricht
+
 					if (nota.getIdAlumno().equals(idAlumno) && nota.getIdMateria().equals(idMateria)) {
 						valor.add(nota);
 					}
 				}
 			}
-			// Beachte, dass das break hier entfernt wurde, um die Schleife für alle Schüler
-			// zu durchlaufen
+
 		}
 
 		return valor;
 	}
 
+	// aca se guarda la Lista de materias
 	public ArrayList<Materia> obtenerMateriasQueFaltanCursarParaUnAlumno(Integer idAlumno) {
 		ArrayList<Materia> faltante = new ArrayList<>();
 		for (Alumno alumno : alumnos) {
 			if (alumno.getDni().equals(idAlumno)) {
-				// Erstelle eine Set zur Verfolgung der bestandenen Materien
+
 				Set<Integer> materiasAprobadas = new HashSet<>();
 
 				// Durchlaufe die Materien, die der Schüler bereits bestanden hat
@@ -441,21 +445,23 @@ public class Universidad {
 	}
 
 	public double calcularPromedio(Integer idAlumno) {
+		ArrayList<Nota> valor = new ArrayList<>();
 		int sumatoriaNota = 0, contadorNotas = 0;
 		double promedio = 0.0;
 		for (Alumno alumno : alumnos) {
 			if (alumno.getDni().equals(idAlumno)) {
 				for (Nota nota : nota) {
-					sumatoriaNota += nota.getValor();
-					contadorNotas++;
+					if (nota.getIdAlumno().equals(idAlumno)) {
+						valor.add(nota);
+
+						sumatoriaNota += nota.getValor();
+						contadorNotas++;
+					}
 				}
 			}
 		}
 		promedio = sumatoriaNota / contadorNotas;
 		return promedio;
+
 	}
-
-	
 }
-
-

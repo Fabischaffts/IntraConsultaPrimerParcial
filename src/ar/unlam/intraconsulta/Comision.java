@@ -15,6 +15,7 @@ public class Comision {
 	// private ArrayList <InscripcionAComision> inscripcionAComision;
 	private ArrayList<Comision> comision;
 	private DayOfWeek dia;
+	//registros de examenes
 
 	public Comision(Integer comisionId) {
 
@@ -130,4 +131,13 @@ public static boolean add(Nota nota) {
 	// TODO Auto-generated method stub
 	return false;
 }
+
+
+
+
+
+
+
+
 }
+

@@ -10,6 +10,7 @@ public class Aula {
 		this.cantidadMaximaDealumnos = cantidadMaximaDealumnos;
 		this.aulaId = aulaId;
 		this.cantidadDeAlumnos = cantidadDeAlumnos;
+		//define  las aulas disponibles
 
 	}
 
@@ -45,11 +46,11 @@ public class Aula {
 		this.cantidadMaximaDealumnos = cantidadMaximaDealumnos;
 	}
 
-	public boolean alumnosPermitidos(Integer cantidadDeAlumnos) {
-		if (cantidadMaximaDealumnos > cantidadDeAlumnos)
-			return true;
+	public Aula alumnosPermitidos(Integer cantidadDeAlumnos) {
+		if (cantidadMaximaDealumnos >= cantidadDeAlumnos)
+			return this.alumnosPermitidos(cantidadDeAlumnos);
 
-		return false;
+		return null;
 	}
 
 }

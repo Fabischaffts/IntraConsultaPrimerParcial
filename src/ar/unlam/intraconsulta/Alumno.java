@@ -1,5 +1,6 @@
 package ar.unlam.intraconsulta;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Alumno {
@@ -7,12 +8,15 @@ public class Alumno {
 	private Integer dni;
 	private String apellido;
 	private String nombre;
+	private LocalDate fechaNacimiento;
+	private LocalDate fechaDeIngreso;
 	private ArrayList<Materia> materias;
 
 	public Alumno(Integer dni, String apellido, String nombre) {
 	this.dni=dni;
 	this.apellido=apellido;
 	this.nombre=nombre;
+	this.materias = new ArrayList<>();
 	}
 
 	public ArrayList<Materia> getMaterias() {

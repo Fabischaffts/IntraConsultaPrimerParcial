@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class Materia {
 
-	private Integer materiaId;
+	private Integer idMateria;
 	private String nombre;
 	private ArrayList<Materia> correlativas;
 	private Integer idCorrelativa;
 	private ArrayList<Nota>nota;
-	private ArrayList<Alumno> alumnos;
+	private ArrayList<Alumno> alumnos;//no tendria que estar en materia
 
 	public Materia(Integer materiaId, String nombre) {
-		this.materiaId = materiaId;
+		this.idMateria = materiaId;
 		this.nombre = nombre;
 		correlativas = new ArrayList<>();
 		this.idCorrelativa = idCorrelativa;
@@ -27,11 +27,11 @@ public class Materia {
 	}
 
 	public Integer getMateriaId() {
-		return materiaId;
+		return idMateria;
 	}
 
 	public void setMateriaId(Integer materiaId) {
-		this.materiaId = materiaId;
+		this.idMateria = materiaId;
 	}
 
 	public String getNombre() {

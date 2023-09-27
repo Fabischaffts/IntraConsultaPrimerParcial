@@ -16,9 +16,10 @@ public class Nota {
 	private Set<Alumno> recuperatoriosRendidos;
 	private ArrayList <Alumno> idAlumno;
 	  
+
 	public Nota() {
-		this.valor = valor;
-		recuperatoriosRendidos = new HashSet<>();
+	    this.valor = 0; // O cualquier otro valor por defecto que desees
+	    recuperatoriosRendidos = new HashSet<>();
 	}
 	
 	

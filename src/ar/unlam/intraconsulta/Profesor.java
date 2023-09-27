@@ -1,11 +1,14 @@
 package ar.unlam.intraconsulta;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Profesor {
 	private Integer dni;
 	private String apellido;
 	private String nombre;
+	private LocalDate fechaNacimiento;
+	private LocalDate fechaIngreso;
 	private ArrayList<Profesor>ListaProfesores;
 
 	public Profesor(Integer dni, String apellido, String nombre) {

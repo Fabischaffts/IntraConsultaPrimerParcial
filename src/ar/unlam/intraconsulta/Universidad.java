@@ -20,10 +20,11 @@ public class Universidad {
 	private ArrayList<Profesor> profesor;
 	private ArrayList<Materia> correlativas;
 	private Collection<? extends ComisionProfe> profesorComision;
-	private ArrayList<ComisionProfe> comisionProfe;
+	private ArrayList<ComisionProfe> listaDeCursoProfesor;
 	private ArrayList<Nota> nota;
 	private ArrayList<ComisionAlumno> listaAlumnoComision;
 	private ArrayList<Comision> alumnonoComisionExistente;
+	//private private ComisionProfe comision;
 
 	public Universidad(String nombre) {
 		this.nombre = nombre;
@@ -318,21 +319,32 @@ public class Universidad {
 		}
 		return false;
 	}
+	public Comision buscarComision(Integer idComision) {
+		for (Comision comision : comision) {
+			if(comision.getComisionId().equals(idComision))
+				return this.comision.get(0);
+			
+		}
+		return null;	
+		
+	}
 
-	public boolean agregarProfesor(Integer dni, Integer codigo) {
-		Universidad uni = new Universidad(nombre);
-		boolean profesorDadoDeAlta = uni.profesorDadoDeAltaYComision(dni, codigo);
-
-		if (!profesorDadoDeAlta) {
-
-			return false;
+	public boolean agregarProfesorAComision(Integer dni, Integer idComision) {
+		Comision comision = buscarComision(idComision);
+		Profesor profesor= buscarProfesorPorDni(dni);
+		//verficar si el profe o la comision ya estan asignados
+		if (profesor != null && comision != null) {
+			for (ComisionProfe cursoProfeExistente : listaDeCursoProfesor) {
+				if(cursoProfeExistente.getProfesor().getDni().equals(dni))
+					if(cursoProfeExistente.getComision().equals(idComision))
+				return false;
+			}
 		}
 
-		int cantidadAlumnos = alumnos.size();
-		int cantidadProfesoresAgregados = profesor.size();
-		int profesoresNecesarios = (cantidadAlumnos / 20) - cantidadProfesoresAgregados;
+		int	cantidadAlumnos = comision.cantidadAlumnosInscripto();
+		int profesoresNecesarios = (cantidadAlumnos / 20 +1);
 
-		if (profesoresNecesarios > 0) {
+		if (comisionProfe(comision)< profesoresNecesarios) {
 			for (int i = 0; i < profesoresNecesarios; i++) {
 
 				Profesor nuevoProfesor = new Profesor(dni, nombre, nombre);
@@ -343,11 +355,18 @@ public class Universidad {
 		return true;
 	}
 
+	private int comisionProfe(Comision comision) {
+		for (Profesor profesor : profesor) {
+		return this.profesor.size()	;
+		}
+		return 0;
+	}
+
 	public boolean agregarAulaAComision(Integer dni, Integer codigo, Integer cantidadMaximaAlumnos) {
 		Universidad uni = new Universidad(nombre);
 		Aula aula = new Aula(cantidadMaximaAlumnos);
 		boolean profesorDadoDeAlta = uni.profesorDadoDeAltaYComision(dni, codigo);
-		if (!agregarProfesor(dni, codigo)) {
+		if (!agregarProfesorAComision(dni, codigo)) {
 			return false;
 		}
 		Comision.add(aula);

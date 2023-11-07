@@ -122,6 +122,13 @@ public class Comision {
 
 		return mismaMateria && mismoCicloLectivo && mismoTurno;
 	}
+	public int cantidadAlumnosInscripto() {
+		for (Alumno alumno : alumnos) {
+			return this.alumnos.size();
+			
+		}
+		return 0;
+	}
 
 
 public static void add(Aula aula) {

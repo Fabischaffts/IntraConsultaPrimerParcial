@@ -429,12 +429,11 @@ public class TestUniversidad {
 		String nombre = "Unlam";
 		Universidad uni = new Universidad(nombre);
 		Comision co = new Comision(1);
-		ComisionProfe cp = new ComisionProfe();
 		Profesor profesor = new Profesor(1, "Leon", "Bauti");
+		ComisionProfe cp = new ComisionProfe(profesor, co);
+		uni.agregarProfesorAComision(1, 1);
 
-		uni.agregarProfesor(1, 1);
-
-		assertFalse(uni.agregarProfesor(1, 1));
+		assertFalse(uni.agregarProfesorAComision(1, 1));
 
 	}
 
@@ -444,12 +443,12 @@ public class TestUniversidad {
 		Universidad uni = new Universidad(nombre);
 		Aula aula = new Aula(22);
 		Comision co = new Comision(1);
-		ComisionProfe cp = new ComisionProfe();
+
 		Profesor profesor = new Profesor(1, "Leon", "Bauti");
+		ComisionProfe cp = new ComisionProfe(profesor, co);
+		uni.agregarProfesorAComision(1, 1);
 
-		uni.agregarProfesor(1, 1);
-
-		assertFalse(uni.agregarProfesor(1, 1));
+		assertFalse(uni.agregarProfesorAComision(1, 1));
 	}
 
 	@Test

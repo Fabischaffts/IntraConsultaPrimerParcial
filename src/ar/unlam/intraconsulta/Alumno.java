@@ -18,9 +18,11 @@ public class Alumno {
 	this.nombre=nombre;
 	this.materias = new ArrayList<>();
 	}
-public void nombre(String nombre) {
-	return;
-}
+public void nombre(boolean nombre) {
+	if(nombre== nombre) 
+		return;
+			
+	}
 	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
